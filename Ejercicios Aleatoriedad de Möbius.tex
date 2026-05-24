@@ -1,0 +1,327 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{times}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{stmaryrd}
+
+% === Conjuntos numéricos ===
+\newcommand{\naturales}{\mathbb{N}}
+\newcommand{\enteros}{\mathbb{Z}}
+\newcommand{\racionales}{\mathbb{Q}}
+\newcommand{\reales}{\mathbb{R}}
+\newcommand{\complejos}{\mathbb{C}}
+\newcommand{\naturalesz}{\mathbb{N}_0}   % N_0 = N ∪ {0}
+\newcommand{\hasta}[1]{\llbracket #1 \rrbracket}
+
+% === Conjuntos usuales en análisis/topología ===
+\newcommand{\bola}[2]{B(#1,\,#2)}           % bola abierta B(x,r)
+\newcommand{\bolac}[2]{\overline{B}(#1,\,#2)} % bola cerrada
+
+% === Intervalos ===
+\newcommand{\intcc}[2]{[#1,\,#2]}
+\newcommand{\intoo}[2]{(#1,\,#2)}
+\newcommand{\intco}[2]{[#1,\,#2)}
+\newcommand{\intoc}[2]{(#1,\,#2]}
+
+% === Operaciones de conjuntos ===
+\newcommand{\partes}[1]{\mathcal{P}(#1)}    % conjunto potencia
+\newcommand{\card}[1]{\#\,#1}               % cardinalidad
+
+% === Grupos/álgebra ===
+\newcommand{\im}{\mathrm{Im}}
+\newcommand{\rango}{\mathrm{rang}}
+\newcommand{\car}{\mathrm{char}}
+
+% === Análisis ===
+\newcommand{\norma}[1]{\left\|#1\right\|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\interior}[1]{#1^{\circ}}
+\newcommand{\clausura}[1]{\overline{#1}}
+\newcommand{\conj}[1]{\overline{#1}}
+
+% == Titulos ==
+\theoremstyle{plain}
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{lemma}[theorem]{Lema} 
+\newtheorem{proposition}[theorem]{Proposición}
+\newtheorem{corollary}[theorem]{Corolario}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definición}
+\newtheorem{example}[theorem]{Ejemplo}
+\newtheorem*{exercise}{Ejercicio}
+
+
+\theoremstyle{remark}
+\newtheorem*{nota}{Nota}
+\newtheorem*{observacion}{Observacion}
+
+\title{Ejercicios de Aleatoriedad de Möbius}
+\author{Valentín Sanz}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\begin{exercise}
+
+ (lema de convergencia de sumas parciales). Sean $f: \naturales \to \complejos$ , $F: \reales ^+
+ \to \complejos$ y $g: \reales ^+ \to \reales^+$. Con $\lim\limits_{x \to \infty} g(x) = 0$. Son equivalentes:
+ \begin{itemize}
+\item[1)]
+\(
+\sum_{y \leq n<x}^{} f(n) = F(x) - F(y) + O(g(x) + g(y)) \quad \forall \, 1\leq y<x 
+\)
+\item[2)]
+\(
+\exists C \in \complejos  \text{ tal que } \sum_{n<x} f(n) = C + F(x) + O(g(x)) \quad \forall \, 1<x
+\)
+
+Además, $C = -F(y) + O(g(1))$ y si $\lim\limits_{x \to \infty}F(x) = 0$ entonces
+ $\lim\limits_{x \to \infty}\sum_{y \leq n<x}^{} f(n) = C$.
+ \end{itemize}
+\end{exercise}
+
+\begin{proof}
+    Supongamos primero 1). Sea $h(x) = \sum_{n<x} f(n) - F(x)$. Por hipótesis vale que
+
+    \[
+    \sum_{y \leq n<x}^{} f(n) - F(x) + F(y) = h(x) - h(y) = O(g(x) + g(y))
+    \]
+
+    Luego existe $K>0$ tal que 
+
+    \[
+    \abs{h(x)-h(y)} \leq K(g(x) + g(y))
+    \]
+
+    Como $\lim\limits_{x \to \infty} g(x) = 0$, dado $\varepsilon >0$ existe $M>0$ tal que para todo $x>M$,
+     $g(x) < \frac{\varepsilon}{2K}$. Entonces si $x,y > M$
+
+     \[
+     \abs{h(x)-h(y)} < K\left(\frac{\varepsilon}{2K} + \frac{\varepsilon}{2K}\right) = \varepsilon
+     \]
+
+     Es decir que existe $\lim\limits_{x \to \infty} h(x) = C$
+     Si fijamos $x$, tomando limite en $y$ vemos que
+
+     \[
+     \lim_{y \to \infty} \abs{h(x) - h(y)} \leq \lim_{y \to \infty} K(g(x) + g(y))
+     \]
+
+     \[
+     \abs{h(x) - C} \leq Kg(x)
+     \]
+
+     Por lo tanto $h(x) - C = O(x)$ y
+
+     \[
+     h(x) + F(x) = \sum_{n<x} f(n) = F(x) + C + O(g(x))
+     \]
+
+    Supongamos 2). En primer lugar notemos que si $u(x) = O(g(x)) , v(y) = O(g(y))$ entonces $\exists K_1,K_2 > 0$ tales que  
+    \begin{align*}
+    \abs{u(x) + v(y)}
+    &\leq \abs{u(x)} + \abs{v(y)}\\
+    &\leq K_1 \cdot g(x) + K_2 \cdot g(y)\\
+    &\leq \max\{K_1,K_2\} \cdot (g(x) + g(y)) \quad \forall 1 \leq y < x
+    \end{align*}
+    Es decir $u(x) + v(y) = O(g(x) + g(y))$. Reescribiendo la sumatoria:
+    \begin{align*}
+    \sum_{y \leq n<x}^{} f(n) &= \sum_{n<x} f(n) - \sum_{n<y} f(n) \\
+    &= F(x) + C + O(g(x)) - (F(y) + C + O(g(y)))\\
+    &= F(x) - F(y) + O(g(x)) + O(g(y)) \quad *\\ 
+    &= F(x) - F(y) + O(g(x) + g(y))
+    \end{align*}
+    Lo que demuestra la equivalencia. Evaluando la expresión $*$ en $y = 1$, usando que 
+    $\exists K > 0 / O(g(1)) \leq C_2g(1)$ y que suma de O(g(x)) es O(g(x)) tenemos que 
+    \[
+    F(x) - F(1) + O(g(x)) + O(g(1)) = F(x) + C + O(g(x))
+    \]
+
+    \[
+    O(g(1)) = C + F(1) + O(g(x))
+    \]
+
+    \[
+    \lim_{x \to \infty}\left(O(g(1)) \right)
+    = \lim_{x \to \infty} (C + F(1) + O(g(x)))
+    = C + F(1)
+    \]
+
+    Si $\alpha(x) = O(g(1)) \leq Kg(1)$, por la linea de arriba el limite de $\alpha$ existe y ademas, 
+    por monotonia del límite es $\lim\limits_{x \to \infty} \alpha(x) \leq Kg(1)$ y por lo tanto
+
+    \[
+    -F(1) + O(g(1)) = C
+    \]
+    Esto, por unicidad del límite, también prueba la unicidad de C.
+    
+\end{proof}
+
+\newpage
+
+\begin{exercise} Sea la funcion $\phi : \naturales \to \naturales$ dada por $\phi(n) = \#\{k\in \naturales : (k,n) = 1\}$
+    Probar que:
+
+\begin{itemize}
+    \item[1)] $\phi$ es multiplicativa.
+    \item[2)] $\phi(n) = n \cdot \prod_{p \mid n}(1-p^{-1}) $ 
+    \item[3)] $\phi(n) = id * \mu $.
+    \item[4)] $\sum_{n = 1}^{\infty}\frac{\phi(n)}{n^{s}} = \frac{\zeta(s-1)}{\zeta(s)} \quad 
+    \forall s\in\complejos : Re(s)>2$
+\end{itemize}
+\end{exercise}
+
+\begin{proof}
+1) En primer lugar probemos que si $n \in \naturales$ entonces $\{k\in \naturales : (k,n) = 1\} =
+(\enteros / n\enteros)^\times$. 
+
+$[k]\in (\enteros / n\enteros)^\times \iff \exists [r]\in \enteros / n \enteros $ tal que $ kr \equiv 1 \ mod(n) 
+\iff \exists q\in \enteros $ tal que $ kr = qn + 1 $ y luego  $kr - qn = 1 $. Por la identidad de Bézout vale que
+ $(n,k) = \min{\{ak + bn : a,b \in \naturales \}} \cap \enteros$. Por lo tanto esto pasa exactamente cuando (n,k) = 1.
+
+ Sean $n,m\in \naturales$ tales que $(n,m) = 1$. 
+ Entonces basta probar que existe una biyección $\psi : (\enteros / n \enteros)^\times \times (\enteros / m \enteros)^\times 
+  \to(\enteros / nm \enteros)^\times $.
+Dado $(a,b) \in (\enteros / n \enteros)^\times \times  (\enteros / m \enteros)^\times$ como $n$ y $m$ son coprimos,
+por el teorema chino del resto existe una única solucion $ 0 \leq c < nm $ al sistema
+
+\[
+\begin{cases}
+x \equiv a \pmod{n} \\
+x \equiv b \pmod{m}
+\end{cases}
+\]
+
+Además, $(c,nm) = 1$ pues si $p$ es un primo que divide a $c$ y a $nm$ entonces, como $n,m$ son coprimos,
+ o bien $p \mid n$ o bien $p \mid m$. Sin perdida de generalidad supongamos que $p \mid n$. Entonces como 
+ $c \equiv a \pmod{n}$ vale que $p \mid a$ y luego $(a,n) = p \neq 1$, que es absurdo. Por lo tanto 
+ $c \in (\enteros / nm \enteros)^\times$.
+ 
+Consideremos $\psi(a,b) = c$, con $c$ elegido de esta forma. 
+Veamos que es biyectiva. Sea $z \in (\enteros / nm \enteros)^\times$ entonces 
+$z = x + kn$ y $z = y + k'm$ para ciertos $x \in \{0,...,n-1\} \ y \in \{0,...,m-1\} \ k,k' \in \enteros$. 
+Entonces $(x,n), (y,m) = 1$ porque cualquier divisor común de $x$ con $n$ o de $y$ con $m$ tambien lo sería de $c$ con $nm$.
+Luego $(x,y) \in (\enteros / n \enteros)^\times \times (\enteros / m \enteros)^\times$.
+Por construcción $\psi(x,y) = z$.
+
+Sean $(a,b),(a',b') \in (\enteros / n \enteros)^\times \times (\enteros / m \enteros)^\times$
+tales que $\psi(a,b) = \psi(a',b')$. Entonces en particular $\psi(a,b) \equiv \psi(a',b') \pmod{nm}$ y luego 
+\[
+\psi(a,b) \equiv \psi(a',b') \pmod{n} \quad \psi(a,b) \equiv \psi(a',b') \pmod{m}
+\]
+
+\[
+a \equiv a' \pmod{n} \quad b \equiv b' \pmod{m}
+\]
+
+Como $a,a' \in \{0,...,n-1\}$ y $b,b' \in \{0,...,m-1\}$ necesariamente $a = a'$ y $ b = b'$.
+Por lo tanto $\psi$ es una biyección, lo que prueba la multiplicidad de $\phi$.
+
+2) Para probar esta identidad primero vamos a necesitar una expresión para $\phi(p^k)$ con $p$ primo y $k\in \naturales$.
+La cantidad de numeros $m\leq p^k$ tales que \textbf{no} son coprimos con $p^k$ son los multiplos de $p$.
+
+$m \leq p^k$ es un múltiplo de $p$ $\iff$ 
+$\exists q \in \naturales : m = p\cdot q \leq p^k$ $\iff$ 
+$\exists q \in \naturales : 1 \leq \frac{m}{p} = q \leq p^{k-1}$. Es decir que hay $p^{k-1}$ tales $m$ y por lo tanto
+\[
+\phi(p^k) = p^k - p^{k-1} = p^k(1-p^{-1})
+\]
+Sea $n\in \naturales$ y sea $n = \prod_{j=1}^{N}p_j ^{k_j}$ su factorización en primos. Usando que $\phi$ es multiplicativa
+y que las potencias de primos distintos son coprimas
+\begin{align*}
+    \phi(n) &= \phi(\prod_{j=1}^{N}p_j ^{k_j}) = \prod_{j=1}^{N}\phi(p_j ^{k_j}) \\
+    &=\prod_{j=1}^{N}p_j^{k_j}(1-p_j^{-1}) = \left(\prod_{j=1}^{N}p_j^{k_j}\right)\cdot\left(\prod_{j=1}^{N}(1-p_j^{-1})\right) \\
+    &= n\prod_{j=1}^{N}(1-p_j^{-1}) = n \cdot \prod_{p\mid n}(1-p^{-1})
+\end{align*}
+3) Por el lema de inversión de Möbius, si $id = 1 * \phi$ entonces $\phi = id * \mu$, que es exactamente lo que queremos
+probar. 
+
+Sea $n\in \naturales$. Consideremos la función $g : \hasta{n} \to \{d \in \naturales : d\mid n\}$ dada por $g(k) = (k,n)$. De manera que 
+$\{g^{-1}(d): d\mid n\}$ es una partición de $\hasta{n}$. Si fijamos $d_0$ un divisor de $n$, entonces $k\in g^{-1}(d_0)
+\iff g(k)= (k,n) = d_0 \iff g(\frac{k}{d_0}, n) = 1$. 
+
+Luego $\#g^{-1}(d_0) = \phi(\frac{n}{d_0})$ y por lo tanto
+\[
+id(n) = \#\hasta{n} = \sum_{d\mid n}\#g^{-1}(d) = \sum_{d\mid n}\phi(\frac{n}{d}) = 1 * \phi(n)
+\]
+Como $n$ era arbitrario es $id = 1 * \phi$, que por lo dicho anteriormente demuestra este inciso.
+
+4) Para todo $s\in\complejos : Re(s)>1$ vale que
+  $D1(s) = \zeta(s)$ que converge absolutamente y como $\mu$ toma valores en $\{-1,0,1\}$, 
+  $\sum_{n=1}^{\infty}\abs{\frac{\mu(n)}{n^{s}}} \leq \sum_{n=1}^{\infty}\abs{\frac{1}{n^{s}}}$ luego tambien converge absolutamente.
+  Entonces como $\mu * 1 = \delta$ y usando que donde $Df,Dg$ convergen absolutamente $D(f*g) = Df \cdot Dg$ tenemos que para
+  todo $s\in\complejos : Re(s)>1$ es
+
+\begin{align*}
+1 &= D\delta(s) = D(\mu*1)(s)\\ 
+&= D\mu(s)\cdot D1(s-1) \\
+&= \sum_{n=1}^{\infty}\frac{\mu(n)}{n^{s}} \cdot \sum_{n=1}^{\infty}\frac{1}{n^{s}} \\
+&= \sum_{n=1}^{\infty}\frac{\mu(n)}{n^{s}} \cdot \zeta(s)
+\end{align*}
+
+Es decir que en esta región vale la identidad $D\mu(s) = \frac{1}{\zeta(s)}$. 
+Notemos que $D(id)(s) = \sum_{n=1}^{\infty}\frac{n}{n^{s}} = \zeta(s-1)$ y luego converge para todo $s\in\complejos : Re(s)>2$.
+
+Por lo tanto para todo $s\in\complejos : Re(s)>2$ es
+\[
+\sum_{n = 1}^{\infty}\frac{\phi(n)}{n^{s}} = D\phi(s) = D(id * \mu)(s) = D(id)(s) \cdot D\mu(s) = \frac{\zeta(s-1)}{\zeta(s)}
+\]
+\end{proof}
+
+\begin{exercise}
+    Sean $\chi, \chi' $ dos caracteres de Dirichlet primitivos distintos, módulo $q$ y $q'$ respectivamente. Probar que $\chi\chi'$
+    es un caracter no principal módulo $[q,q']$.
+    
+\end{exercise}
+
+\begin{proof}
+    En primer lugar probemos que $\chi\conj{\chi'}$ es un caracter de Dirichlet módulo $[q,q'] = M$. Sea $n\in\naturales$ tal que $(n,M) > 0$. 
+    Si $p$ es un primo que divide a $(n,M)$ entonces $p\mid$ n y $p\mid [q,q']$ en particular $p$ debe ser un factor primo de $q$ o de $q'$ luego o $(n,q) \neq 1$ o $(n,q') \neq 1$.
+    En cualquier caso $\chi(n)\conj{\chi'}(n) = 0$ por ser caracteres mód $q$,$q'$.
+    Si $(n,M) = 1$ entonces $(n,q) = 1$ y $(n,q') = 1$ porque si no fuera asi (y suponiendo sin perdida de generalidad que $(n,q)>1$) dado $p$ un
+    divisor primo de $(n,q)$ necesariamente $p \mid [q,q']$. De manera que $(n,M) > 0$.
+    Luego $\chi(n)\conj{\chi'}(n) \neq 0$.
+    Sean $n,m \in \enteros$ entonces como $\chi,\conj{\chi'}$ son completamente multiplicativas luego
+
+    \[
+    \chi\conj{\chi'}(nm) = \chi(n)\chi(m)\conj{\chi'}(n)\conj{\chi'}(m) = (\chi\conj{\chi'})(n)(\chi\conj{\chi'})(m)
+    \]
+
+    Como $\chi$ es periódica mód $q$ y $\conj{\chi'}$ es periódica mód $q'$; $q \mid M$ y $q' \mid M$ entonces ambas son periódicas módulo M.
+    Pues si $M = aq, M = bq'$ entonces $\chi(n + M) = \chi(n + aq) = \chi(n)$ y $\chi'(n + M) = \chi'(n + bq') = \chi'(n)$.
+    Y luego su producto también lo es. Todo esto demuestra que es un caracter mód $[q,q']$.
+
+    Supongamos en busca de una contradicción que es principal. Es decir que 
+    \[
+    \chi\conj{\chi'}(n) = 
+    \begin{cases}
+        1 \quad (n,M) = 1\\
+        0 \quad (n,M) \neq 1
+    \end{cases} 
+    \]
+    De manera que si $(n,M) = 1$ entonces $\chi(n) = \conj{\chi'(n)}^{-1} = \conj{\chi'(n)} = \chi'(n)$. 
+\end{proof}
+
+ESTO NO ANDA
+    \begin{lemma}
+        Si $\chi$ es un caracter primitivo mód $q$ entonces $\chi^{-1}$ también lo es.
+    \end{lemma}
+    \begin{proof}
+        Supongamos que no, de manera que existe un $\psi$ caracter mód $d$, con $d\mid q$ tal que 
+        \[
+        \psi(n) = \chi(n)^{-1} \quad \forall (n,q) = 1
+        \]
+        Pero entonces $\chi(n) = \chi'(n)^{-1}$. Pero $\chi'(n)^{-1}$ es un caracter de Dirichlet mód $d$ luego $\chi$ no es 
+        primitivo. Absurdo, luego se sigue el resultado.
+    \end{proof}
+    Luego $\chi'$ es un caracter mód $q$ y $\chi$ lo es mód $q'$ de manera que $q = q'$. Entonces M = $[q,q'] = q$
+    por lo tanto $\chi$ = $\chi'$. Absurdo luego $\chi\chi'$ no es principal.
+
+\end{document}
